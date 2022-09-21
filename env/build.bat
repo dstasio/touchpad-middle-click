@@ -12,7 +12,7 @@ SETLOCAL
 pushd ".\build"
 
 set      ignored_warnings=-wd4201 -wd4100 -wd4189 -wd4456 -wd4505
-set       windows_h_flags=-DNOMINMAX -DWIN32_LEAN_AND_MEAN
+set       windows_h_flags=-DNOMINMAX -DWIN32_LEAN_AND_MEAN -DUNICODE
 set common_compiler_flags=-diagnostics:column -MTd -nologo -Gm- -GR- -EHa- -Od -Oi -WX -W4 %ignored_warnings% -FAsc -Z7 %windows_h_flags%
 set   common_linker_flags=-incremental:no -opt:ref user32.lib
 
@@ -25,7 +25,7 @@ set source_list="%code_root%\application.c"
 cl %common_compiler_flags% %source_list% -Fmapplication.map /link %common_linker_flags%
 
 set source_list="%code_root%\hook64.c"
-cl %common_compiler_flags% %source_list% -LD -Fmhook64.map /link %common_linker_flags%
+cl %common_compiler_flags% %source_list% -LD -Fmhook64.map /link %common_linker_flags% -EXPORT:hook_proc 
 
 popd REM .\build
 popd REM %proj_root
