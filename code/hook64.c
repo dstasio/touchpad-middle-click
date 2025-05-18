@@ -16,16 +16,20 @@ LRESULT CALLBACK hook_proc(int    code,
         case WM_LBUTTONUP:
         case WM_LBUTTONDBLCLK:
         {
-	    SHORT lwin = GetKeyState(VK_LWIN);
-	    SHORT rwin = GetKeyState(VK_RWIN);
-            SHORT ctrl = GetKeyState(VK_LCONTROL);
+	    //SHORT lwin = GetKeyState(VK_LWIN);
+	    //SHORT rwin = GetKeyState(VK_RWIN);
+            //SHORT ctrl = GetKeyState(VK_LCONTROL);
+            SHORT f1 = GetKeyState(VK_F1);
+            SHORT caps_lock = GetKeyState(VK_CAPITAL);
 
             // high order bit: key is pressed
             //  low order bit: key is toggled
 	    //if (((lwin >> 7) & 1) || ((rwin >> 7) & 1))
-            if ((ctrl >> 7) & 1)
+            //if ((ctrl >> 7) & 1)
+            //if ((f1 >> 7) & 1)
+            if ((caps_lock) & 1) // when caps lock is active, left mouse button becomes middle mouse button
             {
-	        message->message += WM_MBUTTONDOWN - WM_LBUTTONDOWN;
+	           message->message += WM_MBUTTONDOWN - WM_LBUTTONDOWN;
             }
         } break;
 
@@ -33,6 +37,7 @@ LRESULT CALLBACK hook_proc(int    code,
         break;
     }
 
+    //return 0;
     return CallNextHookEx(0, code, w, l);
 }
 
